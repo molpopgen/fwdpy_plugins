@@ -5,7 +5,7 @@ This repo contains examples of extending fwdpy using custom Cython code.
 The gist of the trick is to:
 
 1. make a Cython source file (foo.pyx) defining your cool new function.
-2. Make foo.pyxbld that tells pyximport that this will be a C++ module requiring the flag -std=c++11
+2. Make foo.pyxbld that tells pyximport that this will be a C++ module requiring the flag -std=c++11.  Note: the contents of this file will be the same for any fwdpy extension.  The rule, though, is that module.pyx must have a module.pyxbld associated with it.
 3. We use pximport to build our module on the fly and import it into our script using it.  This is analgous to Rcpp's "cppfunction".
 
 For this to work:
