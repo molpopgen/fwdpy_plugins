@@ -46,10 +46,9 @@ cdef void update_selected_sfs(const singlepop_t * pop, const unsigned generation
     cdef size_t i=0
     cdef size_t n=pop.mutations.size()
     cdef unsigned twoN=2*pop.popsize()
-    while i<n:
+    for i in range(n):
         if pop.mcounts[i]>0 and pop.mcounts[i] < twoN and pop.mutations[i].neutral is False:
             data.push_back(pair[uint,double](pop.mcounts[i],pop.mutations[i].s))
-        i+=1
     rv.push_back(pair[uint,vector[pair[uint,double]]](generation,data))
     
 cdef class SelectedSFSSampler(TemporalSampler):
@@ -92,9 +91,8 @@ cdef class SelectedSFSSampler(TemporalSampler):
         cdef vector[final_t] rv
         cdef size_t i=0;
         cdef n=self.vec.size()
-        while i<n:
+        for i in range(n):
             rv.push_back((<SelectedSFSSampler_t*>self.vec[i].get()).final())
-            i+=1
         return rv
 
     

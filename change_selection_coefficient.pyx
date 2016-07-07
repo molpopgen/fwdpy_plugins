@@ -58,7 +58,7 @@ cdef pair[uint,double] change_s(singlepop_t * pop,
     cdef size_t winner = udistance
     #Go over mutations in pop
     cdef unsigned twoN = 2*pop.popsize()
-    while index < nmuts:
+    for index in range(nmuts):
         #fwdpp allows extinct mutations to remain.  This is done
         #for efficiency reasons (fwdpp will recycle this spot in memory
         #.  We need to skip them here. We also skip any fixations.
@@ -75,7 +75,6 @@ cdef pair[uint,double] change_s(singlepop_t * pop,
                     winner = index
                     distance = fabs_res
                     udistance = max(pop.mcounts[index],count) - min(pop.mcounts[index],count)
-        index += 1
     
     #We found it!
     pop.mutations[winner].s=new_s
