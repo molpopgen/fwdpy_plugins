@@ -1,8 +1,11 @@
 #This file should not need modification.  A copy/paste
 #to yourmodname.pyxbld should suffice
+import fwdpy as fp
+fwdpp_includes=fp.__file__.replace('lib','include').replace('site-packages/','').replace('/__init__.pyc','')
 def make_ext(modname, pyxfilename):
     from distutils.extension import Extension
     return Extension(name=modname,
                      sources=[pyxfilename],
                      language='c++',
+		     include_dirs=[fwdpp_includes],
 		     extra_compile_args=['-std=c++11'])
