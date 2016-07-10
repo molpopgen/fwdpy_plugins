@@ -2,11 +2,14 @@
 #to yourmodname.pyxbld should suffice
 import fwdpy as fp
 import re
-fwdpp_includes=fp.__file__.replace('lib','include').replace('site-packages/','').replace('/__init__.pyc','')
+fwdpp_includes=fp.__file__
+fwdpp_includes=re.sub('lib','include',fwdpp_includes)
+fwdpp_includes=re.sub('site-packages/','',fwdpp_includes)
+fwdpp_includes=re.sub(r'/__init__.+','',fwdpp_includes)
 p=re.compile(r'python3.\d+')
 f=p.findall(fwdpp_includes)
-print(f)
-fwdpp_includes=fwdpp_includes.replace('/__init__.py','')
+for i in f:
+    fwdpp_includes=re.sub(i,i+'m',fwdpp_includes)
 def make_ext(modname, pyxfilename):
     from distutils.extension import Extension
     return Extension(name=modname,
