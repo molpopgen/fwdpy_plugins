@@ -1,3 +1,4 @@
+from __future__ import print_function
 import pyximport
 pyximport.install()
 import change_selection_coefficient as csp
@@ -38,13 +39,13 @@ pops = fp.evolve_regions(rng,20,
 for i in pops:
     x=csp.change_selection_coeff(i,0.5,10,0.1,0.25)
     #print out count and position of variant actually changed
-    print x
+    print (x)
 
 #Get the list of mutations in each population
 views = [pd.DataFrame(i) for i in fp.view_mutations(pops)]
 
 for i in views:
-    print i[i.neutral==False]
+    print (i[i.neutral==False])
 
 #Now, lets use our custom temporal sampler
 sampler=cts1.SelectedSFSSampler(len(pops))
@@ -77,4 +78,4 @@ def coerce2DF(x):
 sfs=[coerce2DF(i) for i in sampler.get()]
 
 for sfsi in sfs:
-    print sfsi
+    print (sfsi)

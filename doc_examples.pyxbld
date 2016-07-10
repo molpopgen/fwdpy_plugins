@@ -1,7 +1,12 @@
 #This file should not need modification.  A copy/paste
 #to yourmodname.pyxbld should suffice
 import fwdpy as fp
+import re
 fwdpp_includes=fp.__file__.replace('lib','include').replace('site-packages/','').replace('/__init__.pyc','')
+p=re.compile(r'python3.\d+')
+f=p.findall(fwdpp_includes)
+print(f)
+fwdpp_includes=fwdpp_includes.replace('/__init__.py','')
 def make_ext(modname, pyxfilename):
     from distutils.extension import Extension
     return Extension(name=modname,
