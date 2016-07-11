@@ -19,7 +19,7 @@ The latter two may be "pip installed".
 To compile a module, you need to know where the fwdpy headers are.  This can be tricky, and I'm trying to figure out a way to automate it.  For right now, I'll assume you know the location.  You need to set CPPFLAGS to include that location.  For example:
 
 ~~~{sh}
-CPPFLAGS=-I$HOME/.local/include/python2.7/fwdpy python run_change_selection_coefficient.py
+python run_change_selection_coefficient.py
 ~~~
 
 That command will:
@@ -27,3 +27,5 @@ That command will:
 1. compile our custom module if needed.
 2. import it
 3. do some evolution, apply the new custom function, and print some output
+
+Please note that the "pyxbld" files attempt to deduce the install location of the fwdpy headers.  If that does not work, please post details to the fwdpy-users Google Group.
