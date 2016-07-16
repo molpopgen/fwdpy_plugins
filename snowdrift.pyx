@@ -40,7 +40,6 @@ cdef inline double snowdrift_fitness(const diploid_t & dip,
             a = d.b1*zpair + d.b2*zpair*zpair - d.c1*zself - d.c2*zself*zself
             fitness += a#(max[double](a,0.0))
     fitness/=<double>(d.phenotypes.size()-1)
-    printf("%lf\n",fitness)
     return max[double](1+fitness,0.0)
 
 cdef inline void snowdrift_update(const singlepop_t * pop, snowdrift_data & d) nogil:
