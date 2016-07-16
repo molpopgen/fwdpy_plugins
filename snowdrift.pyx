@@ -38,17 +38,24 @@ cdef inline double snowdrift_fitness(const diploid_t & dip,
         if i != dip.label:
             zpair = zself + d.phenotypes[i]
             a = d.b1*zpair + d.b2*zpair*zpair - d.c1*zself - d.c2*zself*zself
-            fitness += (max[double](a,0.0))
+            fitness += a#(max[double](a,0.0))
     fitness/=<double>(d.phenotypes.size()-1)
-    return fitness
+    printf("%lf\n",fitness)
+    return max[double](1+fitness,0.0)
 
 cdef inline void snowdrift_update(const singlepop_t * pop, snowdrift_data & d) nogil:
     if d.phenotypes.size() < pop.diploids.size():
         d.phenotypes.resize(pop.diploids.size())
     cdef size_t i=0
-    cdef additive_diploid a
+    cdef site_dependent_fitness_wrapper a
     for i in range(pop.diploids.size()):
-        d.phenotypes[i] = a(<diploid_t>pop.diploids[i],<gcont_t>pop.gametes,<mcont_t>pop.mutations,<double>2.0)
+        d.phenotypes[i] = a(<diploid_t>pop.diploids[i],
+                            <gcont_t>pop.gametes,
+                            <mcont_t>pop.mutations,
+                            <genotype_fitness_updater>hom_additive_update_2,
+                            <genotype_fitness_updater>het_additive_update,
+                            <fitness_function_finalizer>return_trait_value,
+                            <double>0.0)
     
 ctypedef singlepop_fitness_data[snowdrift_data] singlepop_fitness_snowdrift
 
