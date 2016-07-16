@@ -37,7 +37,7 @@ cdef inline double snowdrift_fitness(const diploid_t & dip,
     for i in range(n):
         if i != dip.label:
             zpair = zself + d.phenotypes[i]
-            a = d.b1*zpair + d.b2*zpair - d.c1*zself - d.c2*zself*zself
+            a = d.b1*zpair + d.b2*zpair*zpair - d.c1*zself - d.c2*zself*zself
             fitness += (max[double](a,0.0))
     fitness/=<double>(d.phenotypes.size()-1)
     return fitness
