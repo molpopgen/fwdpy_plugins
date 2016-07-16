@@ -32,7 +32,7 @@ cdef inline double snowdrift_fitness(const diploid_t & dip,
                                      snowdrift_data & d) nogil:
     cdef double zself = d.phenotypes[dip.label]
     cdef size_t i=0
-    cdef double fitness = 0.25,zpair=0.0,a=0.0
+    cdef double fitness = 0.0,zpair=0.0,a=0.0
     cdef size_t n = d.phenotypes.size()
     for i in range(n):
         if i != dip.label:
