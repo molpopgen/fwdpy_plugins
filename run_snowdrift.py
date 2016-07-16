@@ -11,7 +11,7 @@ sregions=[fp.GaussianS(0,1,1,0.25)]
 recregions=[fp.Region(0,1,1)]
 
 N=1000
-nlist=np.array([1000]*N,dtype=np.uint32)
+nlist=np.array([1000]*(10*N),dtype=np.uint32)
 n=0.0
 s=0.001
 r=0.01
