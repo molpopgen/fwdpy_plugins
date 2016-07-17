@@ -23,7 +23,8 @@ cdef inline void label_diploids_cpp(singlepop_t * pop):
 cdef cppclass snowdrift_data:
     vector[double] phenotypes
     double b1,b2,c1,c2
-
+    site_dependent_fitness_wrapper a
+    
 #Function to return an initialized snowdrift_data object
 cdef inline snowdrift_data make_snowdrift_data(double b1,double b2, double c1, double c2):
     cdef snowdrift_data d
@@ -58,15 +59,14 @@ cdef inline void snowdrift_update(const singlepop_t * pop, snowdrift_data & d) n
     if d.phenotypes.size() < pop.diploids.size():
         d.phenotypes.resize(pop.diploids.size())
     cdef size_t i=0
-    cdef site_dependent_fitness_wrapper a
     for i in range(pop.diploids.size()):
-        d.phenotypes[i] = a(<diploid_t>pop.diploids[i],
-                            <gcont_t>pop.gametes,
-                            <mcont_t>pop.mutations,
-                            <genotype_fitness_updater>hom_additive_update_2,
-                            <genotype_fitness_updater>het_additive_update,
-                            <fitness_function_finalizer>return_trait_value,
-                            <double>0.0)
+        d.phenotypes[i] = d.a(<diploid_t>pop.diploids[i],
+                              <gcont_t>pop.gametes,
+                              <mcont_t>pop.mutations,
+                              <genotype_fitness_updater>hom_additive_update_2,
+                              <genotype_fitness_updater>het_additive_update,
+                              <fitness_function_finalizer>return_trait_value,
+                              <double>0.0)
 
 #Nicer name for our stateful fitness type:
 ctypedef singlepop_fitness_data[snowdrift_data] singlepop_fitness_snowdrift
