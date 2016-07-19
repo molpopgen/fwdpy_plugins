@@ -60,13 +60,13 @@ cdef inline void snowdrift_update(const singlepop_t * pop, snowdrift_data & d) n
         d.phenotypes.resize(pop.diploids.size())
     cdef size_t i=0
     for i in range(pop.diploids.size()):
-        d.phenotypes[i] = d.a(<diploid_t>pop.diploids[i],
-                              <gcont_t>pop.gametes,
-                              <mcont_t>pop.mutations,
-                              <genotype_fitness_updater>hom_additive_update_2,
-                              <genotype_fitness_updater>het_additive_update,
-                              <fitness_function_finalizer>return_trait_value,
-                              <double>0.0)
+        d.phenotypes[i] = d.a(pop.diploids[i],
+                              pop.gametes,
+                              pop.mutations,
+                              hom_additive_update_2,
+                              het_additive_update,
+                              return_trait_value,
+                              0.0)
 
 #Nicer name for our stateful fitness type:
 ctypedef singlepop_fitness_data[snowdrift_data] singlepop_fitness_snowdrift
@@ -79,6 +79,10 @@ cdef class SpopSnowdrift(SpopFitness):
         """
         Constructor takes the params for the payoff functions.
         """
+
+        #Note: the object d will be COPIED before simulation
+        #Thus, d will contain no meaningful data, making it of 
+        #no use to try to view d in Python
         cdef snowdrift_data d = make_snowdrift_data(b1,b2,c1,c2)
         self.wfxn=<unique_ptr[singlepop_fitness]>unique_ptr[singlepop_fitness_snowdrift](new singlepop_fitness_snowdrift(snowdrift_fitness,
                                                                                                                          snowdrift_update,d))
