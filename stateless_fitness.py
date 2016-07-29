@@ -1,3 +1,4 @@
+from __future__ import print_function
 import pyximport
 pyximport.install()
 import stateless_fitness_models as sfm
@@ -10,7 +11,7 @@ s = [fp.ExpS(0,1,1,-0.25)]
 r = n
 
 def evolve_some_pops(w):
-    print "starting!"
+    print ("starting!")
     N=1000
 
     rng = fp.GSLrng(101)
@@ -22,7 +23,7 @@ def evolve_some_pops(w):
     dips1 = fp.view_diploids(pops,[0,1,2,3,4,5])
 
     for i in dips1[0]:
-        print i['w']
+        print (i['w'])
 
 for w in [sfm.CustomAdditive1(),sfm.CustomAdditive2(),sfm.CustomAdditive3(),sfm.CustomAdditive4()]:
     evolve_some_pops(w)
